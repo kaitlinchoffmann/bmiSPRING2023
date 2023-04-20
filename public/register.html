@@ -22,26 +22,21 @@
 
   <main>
     <!-- what matters for your exercise, ignore the header and footer -->
-    <form id="bmi-form">
-      <h2>Enter Info</h2>
-      <label for="height">Height </label>
-      <input type="number" id="height" required min="1">
+    <form id="register-form">
+      <h2>Register</h2>
+      <label for="username">Username </label>
+      <input type="text" id="username">
       <br>
-      <label for="weight">Weight</label>
-      <input type="number" id="weight" required min="1">
+      <label for="firstName">First Name </label>
+      <input type="text" id="firstName">
       <br>
-      <input type="submit" value="Calculate">
-      <p class="result" id="calculation">BMI: --</p> <!-- append calculation here! -->
-<!-- <p class="result">You are -- </p> <--append this!-->
-    </form>
-
-    <form id="post-form">
-      <h2>Post</h2>
-      <label for="post">Post </label>
-      <input type="text" id="post" >
+      <label for="lastName">Last Name </label>
+      <input type="text" id="lastName">
       <br>
-      <input type="submit" value="Create Post">
-<!-- <p class="result">You are -- </p> <--append this!-->
+      <label for="password">Password</label>
+      <input type="password" id="pswd">
+      <br>
+      <input type="submit" value="Register">
     </form>
   </main>
 

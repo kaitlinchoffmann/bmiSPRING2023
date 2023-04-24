@@ -52,7 +52,6 @@ function register(e) {
   let lastName = document.getElementById("lastName").value;
 
   let user = new User(userName, password, firstName, lastName);
-  console.log(user);
 
   document.getElementById("username").value = "";
 }

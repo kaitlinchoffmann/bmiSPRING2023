@@ -1,3 +1,15 @@
+let getBtn = document.getElementById("getUsers")
+if(getBtn) getBtn.addEventListener('click', getAllUsers);
+
+function getAllUsers() {
+  fetch('http://localhost:3000/users/')
+  .then((res) => res.json())
+  .then((data) => console.log(data))
+  .catch((err) => console.log(err))
+}
+
+
+
 class User {
   constructor(username, password, firstName, lastName) {
     this.userName = username;

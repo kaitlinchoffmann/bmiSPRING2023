@@ -1,3 +1,5 @@
+import { fetchData, setCurrentUser } from "./main.js";
+
 let getBtn = document.getElementById("getUsers")
 if(getBtn) getBtn.addEventListener('click', getAllUsers);
 
@@ -7,7 +9,6 @@ function getAllUsers() {
   .then((data) => console.log(data))
   .catch((err) => console.log(err))
 }
-
 
 
 class User {
@@ -40,20 +41,19 @@ function login(e) {
   let password = document.getElementById("pswd").value;
 
   let user = new User(userName, password);
-  /*
-    {
-      userName: "cathy123",
-      password: "icecream"
-    }
-  */
+
   fetchData('/users/login', user, "POST")
   .then(data => {
-    console.log(data);
+    setCurrentUser(data);
+    window.location.href = "bmi.html"
   })
   .catch(err => {
-    console.log(err.message);
+    document.querySelector("#login-form p.error").innerHTML = err.message;
+    document.getElementById("username").value = ""
+    document.getElementById("pswd").value = ""
   })
 }
+
 
 function register(e) {
   e.preventDefault();
@@ -64,43 +64,14 @@ function register(e) {
   let lastName = document.getElementById("lastName").value;
 
   let user = new User(userName, password, firstName, lastName);
-
-  document.getElementById("username").value = "";
+  fetchData("/users/register", user, "POST")
+  .then(data => {
+    setCurrentUser(data)
+    window.location.href = "bmi.html"
+  })
+  .catch(err => {
+    document.querySelector("#register-form p.error").innerHTML = err.message;
+    document.getElementById("pswd").value = ""
+  })
+  
 }
-
-let postForm = document.getElementById("post-form");
-if(postForm) postForm.addEventListener("submit", createPost)
-
-function createPost(e) {
-  e.preventDefault();
-
-  let createdPost = document.getElementById("post").value;
-
-  let newPost = {
-    post: createdPost
-  }
-
-  console.log(newPost)
-}
-
-
-// Fetch method implementation:
-async function fetchData(route = '', data = {}, methodType) {
-  const response = await fetch(`http://localhost:3000${route}`, {
-    method: methodType, // *POST, PUT, DELETE, etc.
-    mode: 'cors', // no-cors, *cors, same-origin
-    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-    credentials: 'same-origin', // include, *same-origin, omit
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    redirect: 'follow', // manual, *follow, error
-    referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-    body: JSON.stringify(data) // body data type must match "Content-Type" header
-  });
-  if(response.ok) {
-    return await response.json(); // parses JSON response into native JavaScript objects
-  } else {
-    throw await response.json();
-  }
-} 

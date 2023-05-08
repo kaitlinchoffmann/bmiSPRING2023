@@ -69,10 +69,34 @@ async function getUser(user) {
     `
   }
 
-  return con.query(sql);
+  return await con.query(sql);
 }
 
-module.exports = { getAllUsers, login, register }
+// edit a username function
+async function editUser(user) {
+  let cUser = await userExists(user.userName);
+  if(cUser.length > 0) throw Error("Username in use!!");
+
+  let sql = `
+    UPDATE users 
+    SET userName = "${user.userName}"
+    WHERE userID = ${user.userID};
+  `
+
+  await con.query(sql)
+  cUser = await getUser(user)
+  return cUser[0]
+}
+
+async function deleteUser(user) {
+  let sql = `
+    DELETE FROM users
+    WHERE userID = ${user.userID}
+  `
+  await con.query(sql);
+}
+
+module.exports = { getAllUsers, login, register, editUser, deleteUser }
 
 
 
